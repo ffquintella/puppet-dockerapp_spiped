@@ -1,6 +1,6 @@
 {
   "name": "ffquintella-dockerapp_spiped",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Felipe Quintella",
   "summary": "This module installs the spiped communication tool using docker",
   "license": "GPL-3.0-or-later",
@@ -17,7 +17,7 @@
       "version_requirement": ">= 6.0.0 < 7.0.0"
     },
     {
-      "name": "puppetlabs/yum_core",
+      "name": "puppetlabs/yumrepo_core",
       "version_requirement": ">= 1.0.3 < 2.0.0"
     },
     {
