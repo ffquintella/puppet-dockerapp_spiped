@@ -21,6 +21,9 @@
 # [*ip_out*]
 #   Destination IP
 #
+# [*net*]
+#   Network to use
+#
 # [*link*]
 #   Other containers to link
 #
@@ -36,6 +39,7 @@ define dockerapp_spiped(
   $port_out = undef,
   $ip_out = undef,
   $link = undef,
+  $net = undef,
   $key = undef,
   $type = 'in'
 ) {
@@ -107,6 +111,7 @@ define dockerapp_spiped(
       restart_service => true,
       #ports           => $sp_ports,
       volumes         => $sp_volumes,
+      net             => $net,
       require         => $req,
     }
   }else{
@@ -115,6 +120,7 @@ define dockerapp_spiped(
       command         => "spiped -d -s \'[0.0.0.0]:${port_in}\' -t \'${link}:${port_out}\' -k /spiped/key/spiped-keyfile -F",
       hostname        => $::fqdn,
       links           => $links,
+      net             => $net,
       restart_service => true,
       ports           => $sp_ports,
       volumes         => $sp_volumes,
