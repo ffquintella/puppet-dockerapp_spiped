@@ -48,8 +48,8 @@ define dockerapp_spiped(
     path => ['/usr/bin', '/bin', '/sbin', '/usr/local/bin', '/usr/sbin', '/usr/lib/jvm/jre-8u60/bin'],
   }
 
-  if !defined(Class['dockerapp']) {class{'::dockerapp':}}
-  if !defined(Class['stdlib']) {class{'::stdlib':}}
+  if !defined(Class['dockerapp']) {class{'dockerapp':}}
+  if !defined(Class['stdlib']) {class{'stdlib':}}
 
   if $link != undef and $ip_out != undef {
     fail ('You mus define link or ip_out')
@@ -57,7 +57,7 @@ define dockerapp_spiped(
 
   $service_name = $title
 
-  $base_app_config = $::dockerapp::params::config_dir
+  $base_app_config = $dockerapp::params::config_dir
 
   $conf_configdir = "${base_app_config}/${service_name}"
 
@@ -107,7 +107,7 @@ define dockerapp_spiped(
     dockerapp::run { $service_name:
       image           => $sp_image_name,
       command         => "spiped -e -s \'[0.0.0.0]:${port_in}\' -t \'${ip_out}:${port_out}\' -k /spiped/key/spiped-keyfile -F",
-      hostname        => $::fqdn,
+      hostname        => $facts['networking']['fqdn'],
       restart_service => true,
       #ports           => $sp_ports,
       volumes         => $sp_volumes,
@@ -118,7 +118,7 @@ define dockerapp_spiped(
     dockerapp::run { $service_name:
       image           => $sp_image_name,
       command         => "spiped -d -s \'[0.0.0.0]:${port_in}\' -t \'${link}:${port_out}\' -k /spiped/key/spiped-keyfile -F",
-      hostname        => $::fqdn,
+      hostname        => $facts['networking']['fqdn'],
       links           => $links,
       net             => $net,
       restart_service => true,
